@@ -294,9 +294,10 @@ function pinSet(){if(!window.crypto||!crypto.subtle){toast('PIN needs a secure c
 function pinRemove(){const cur=pinData();if(!cur)return;
  openModal('Remove PIN',field('Enter your PIN to remove the lock','cur','password','',{required:true}),'Remove PIN',fd=>{const cv=String(fd.get('cur')||'').trim();
   (async()=>{try{if((await pinHash(cv,cur.salt))!==cur.hash){toast('Wrong PIN.');return;}localStorage.removeItem(PINKEY);closeModal();render();toast('PIN removed.');}catch(e){toast('Could not remove the PIN.');}})();return false;});numPad();}
-showLock();
-const AUTHKEY='mini_shop_auth',SESSKEY='mini_shop_session';let session=null;
+ const AUTHKEY='mini_shop_auth',SESSKEY='mini_shop_session';let session=null;
 function authData(){try{return JSON.parse(localStorage.getItem(AUTHKEY)||'null');}catch(e){return null;}}
+ // Start PIN-lock checks only after AUTHKEY and authData() are initialized.
+ showLock();
 function authSave(d){localStorage.setItem(AUTHKEY,JSON.stringify(d));}
 function nowMs(){const d=authData(),n=Math.max(Date.now(),(d&&d.lastSeen)||0);if(d&&n>(d.lastSeen||0)){d.lastSeen=n;try{authSave(d);}catch(e){}}return n;}
 function hex(b){return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
