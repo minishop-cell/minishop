@@ -1,5 +1,5 @@
 // Bump this number on every deploy so users get the new version.
-const VERSION = 'v3';
+const VERSION = 'v4';
 const CACHE = 'mini-shop-' + VERSION;
 const CORE = [
   './',
