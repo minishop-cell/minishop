@@ -534,5 +534,46 @@ window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip
 ib.addEventListener('click',function(){if(!dip)return;dip.prompt();dip.userChoice.then(function(){dip=null;ib.classList.add('hidden');});});
 window.addEventListener('appinstalled',function(){ib.classList.add('hidden');});})();
 </script>
+  
+<!-- Mini Shop iPhone installation help -->
+<button
+  id="iosInstallHelp"
+  class="btn primary hidden"
+  type="button"
+  style="position:fixed;left:16px;bottom:20px;z-index:50;box-shadow:var(--shadow)"
+>
+  🍎 Add to iPhone
+</button>
+
+<script>
+(function () {
+  var button = document.getElementById('iosInstallHelp');
+
+  var isIOS =
+    /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' &&
+     navigator.maxTouchPoints > 1);
+
+  var isInstalled =
+    window.navigator.standalone === true ||
+    window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isIOS && !isInstalled) {
+    button.classList.remove('hidden');
+
+    button.addEventListener('click', function () {
+      alert(
+        'Add Mini Shop to your iPhone Home Screen\n\n' +
+        '1. Open Mini Shop in Safari.\n' +
+        '2. Tap the Share button.\n' +
+        '3. Choose Add to Home Screen.\n' +
+        '4. Tap Add.\n\n' +
+        'You can then open Mini Shop using its Home Screen icon.'
+      );
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
